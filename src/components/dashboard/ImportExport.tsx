@@ -17,10 +17,13 @@ import {
   Sparkles,
   AlertTriangle,
   Trash2,
+  Cloud,
+  HardDrive,
+  RefreshCw,
 } from 'lucide-react';
 
 export function ImportExport() {
-  const { state, importTrades, addTrades, clearAll } = useTrades();
+  const { state, importTrades, addTrades, clearAll, isUsingSupabase, isLoading, error, refreshTrades } = useTrades();
   const [showShareModal, setShowShareModal] = useState(false);
   const [showClearConfirm, setShowClearConfirm] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -127,16 +130,37 @@ export function ImportExport() {
             </Button>
           </div>
 
-          {importError && (
+          {isUsingSupabase && (
+            <Button
+              variant="secondary"
+              onClick={refreshTrades}
+              disabled={isLoading}
+            >
+              <RefreshCw size={16} className={`mr-2 ${isLoading ? 'animate-spin' : ''}`} />
+              Refresh
+            </Button>
+          )}
+
+          {(importError || error) && (
             <div className="mt-4 p-3 bg-accent-red/10 border border-accent-red/30 rounded-lg flex items-center gap-2 text-accent-red text-sm">
               <AlertTriangle size={16} />
-              {importError}
+              {importError || error}
             </div>
           )}
 
-          <p className="mt-4 text-sm text-dark-500">
-            {state.trades.length} trade{state.trades.length !== 1 ? 's' : ''} stored locally
-          </p>
+          <div className="mt-4 flex items-center gap-2 text-sm text-dark-500">
+            {isUsingSupabase ? (
+              <>
+                <Cloud size={16} className="text-accent-green" />
+                <span>{state.trades.length} trade{state.trades.length !== 1 ? 's' : ''} synced with Supabase</span>
+              </>
+            ) : (
+              <>
+                <HardDrive size={16} />
+                <span>{state.trades.length} trade{state.trades.length !== 1 ? 's' : ''} stored locally</span>
+              </>
+            )}
+          </div>
         </CardContent>
       </Card>
 
