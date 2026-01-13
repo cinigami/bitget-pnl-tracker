@@ -8,7 +8,6 @@ import { KPICards } from './KPICards';
 import { WeeklyPnlChart, WinLossChart, EquityCurveChart } from './Charts';
 import { TradesTable } from './TradesTable';
 import { EditTradeTableModal } from './EditTradeTableModal';
-import { ImportExport } from './ImportExport';
 import {
   calculateWeeklyMetrics,
   getWeeklyNetPnlData,
@@ -96,8 +95,6 @@ export function Dashboard() {
         onEdit={handleEditTrade}
         onDelete={handleDeleteTrade}
       />
-
-      <ImportExport />
 
       <EditTradeTableModal
         isOpen={!!editingTrade}
