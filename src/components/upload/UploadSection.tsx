@@ -77,7 +77,7 @@ export function UploadSection() {
             if (existing) {
               setDuplicateAlert({ trade, existing });
             } else if (!trade.needsReview) {
-              addTrade(trade);
+              await addTrade(trade);
             }
           }
         } catch (error) {

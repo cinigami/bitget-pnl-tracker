@@ -4,9 +4,15 @@ import { parseFlexibleDate } from './dates';
 export const parsingConfig: ParsingConfig = {
   datePatterns: [
     {
-      name: 'ISO format',
+      name: 'ISO format with seconds',
       pattern: /(\d{4}-\d{2}-\d{2}[\sT]\d{2}:\d{2}:\d{2})/,
       extract: (match) => match[1],
+      confidence: 'high',
+    },
+    {
+      name: 'ISO format without seconds',
+      pattern: /(\d{4}-\d{2}-\d{2}[\sT]\d{2}:\d{2})(?!\d|:)/,
+      extract: (match) => `${match[1]}:00`,
       confidence: 'high',
     },
     {
