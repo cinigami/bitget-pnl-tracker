@@ -8,9 +8,10 @@ interface ImagePreviewProps {
   image: UploadedImage;
   onRemove: (id: string) => void;
   onEdit: (image: UploadedImage) => void;
+  onRemarksChange?: (id: string, remarks: string) => void;
 }
 
-export function ImagePreview({ image, onRemove, onEdit }: ImagePreviewProps) {
+export function ImagePreview({ image, onRemove, onEdit, onRemarksChange }: ImagePreviewProps) {
   const getStatusIcon = () => {
     switch (image.status) {
       case 'pending':
@@ -87,6 +88,15 @@ export function ImagePreview({ image, onRemove, onEdit }: ImagePreviewProps) {
                 {image.trade.realizedPnl >= 0 ? '+' : ''}
                 {image.trade.realizedPnl.toFixed(2)} USDT
               </span>
+            </div>
+            <div className="mt-2">
+              <input
+                type="text"
+                placeholder="Add remarks..."
+                value={image.trade.remarks || ''}
+                onChange={(e) => onRemarksChange?.(image.id, e.target.value)}
+                className="w-full bg-dark-700 border border-dark-600 rounded-lg px-3 py-1.5 text-dark-100 text-xs placeholder-dark-500 focus:outline-none focus:ring-1 focus:ring-accent-green/50 focus:border-accent-green transition-colors"
+              />
             </div>
             {(image.trade.needsReview ||
               image.trade.confidence.overall !== 'high') && (

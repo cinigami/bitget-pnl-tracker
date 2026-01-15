@@ -116,6 +116,24 @@ export function UploadSection() {
     setImages([]);
   }, [images]);
 
+  const handleRemarksChange = useCallback(
+    (id: string, remarks: string) => {
+      setImages((prev) =>
+        prev.map((img) =>
+          img.id === id && img.trade
+            ? { ...img, trade: { ...img.trade, remarks } }
+            : img
+        )
+      );
+      // Also update the trade in the database if it's already saved
+      const image = images.find((img) => img.id === id);
+      if (image?.trade && !image.trade.needsReview) {
+        updateTrade({ ...image.trade, remarks });
+      }
+    },
+    [images, updateTrade]
+  );
+
   const handleEditSave = useCallback(
     (trade: Trade) => {
       const existing = isDuplicate(trade);
@@ -216,6 +234,7 @@ export function UploadSection() {
                 image={image}
                 onRemove={handleRemoveImage}
                 onEdit={setEditingImage}
+                onRemarksChange={handleRemarksChange}
               />
             ))}
           </div>

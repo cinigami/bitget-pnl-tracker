@@ -171,6 +171,17 @@ export function TradesTable({ trades, onEdit, onDelete }: TradesTableProps) {
           return row.getValue(columnId) === filterValue;
         },
       }),
+      columnHelper.accessor('remarks', {
+        header: 'Remarks',
+        cell: (info) => {
+          const remarks = info.getValue();
+          return (
+            <span className="text-dark-300 text-sm max-w-[150px] truncate block" title={remarks || ''}>
+              {remarks || '-'}
+            </span>
+          );
+        },
+      }),
       columnHelper.display({
         id: 'actions',
         header: '',

@@ -28,6 +28,7 @@ export function EditTradeTableModal({
     realizedPnl: '',
     fees: '',
     roi: '',
+    remarks: '',
   });
 
   useEffect(() => {
@@ -41,6 +42,7 @@ export function EditTradeTableModal({
         realizedPnl: trade.realizedPnl?.toString() || '',
         fees: trade.fees?.toString() || '',
         roi: trade.roi?.toString() || '',
+        remarks: trade.remarks || '',
       });
     }
   }, [trade]);
@@ -63,6 +65,7 @@ export function EditTradeTableModal({
       roi: formData.roi ? parseFloat(formData.roi) : null,
       result,
       needsReview: false,
+      remarks: formData.remarks || undefined,
       updatedAt: new Date().toISOString(),
     };
 
@@ -135,6 +138,17 @@ export function EditTradeTableModal({
           onChange={(e) => setFormData({ ...formData, roi: e.target.value })}
           placeholder="Optional"
         />
+
+        <div>
+          <label className="text-sm font-medium text-dark-300 mb-1.5 block">Remarks</label>
+          <textarea
+            value={formData.remarks}
+            onChange={(e) => setFormData({ ...formData, remarks: e.target.value })}
+            placeholder="Add notes about this trade..."
+            className="w-full bg-dark-700 border border-dark-600 rounded-lg px-4 py-2.5 text-dark-100 text-sm placeholder-dark-500 focus:outline-none focus:ring-2 focus:ring-accent-green/50 focus:border-accent-green transition-colors resize-none"
+            rows={2}
+          />
+        </div>
 
         <div className="flex gap-3 pt-4">
           <Button type="button" variant="secondary" onClick={onClose} className="flex-1">

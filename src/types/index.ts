@@ -18,6 +18,7 @@ export interface Trade {
   roi: number | null;
   result: TradeResult;
   needsReview: boolean;
+  remarks?: string;
   confidence: {
     timestamp: ConfidenceLevel;
     symbol: ConfidenceLevel;
